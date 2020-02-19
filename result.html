@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <meta charset="utf-8">
+    <title>結果｜ドラフトアプリ｜プロトタイプ</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        //alert("{{ tid }}");
+
+        const endpoint = "https://script.google.com/macros/s/AKfycbxConiUtYgeRyGqS0_KwOzNwDdxTFXrFRwg7i7dL1LqKtk740kB/exec";
+        $.ajax({
+            type: 'GET',
+            url: endpoint,
+            dataType: 'jsonp',
+            jsonpCallback: 'callback',
+            data: {
+              jsonpcallback: 'callback'
+            },
+            success: function(out) {
+              var frac = new Array(out.content.length);
+              var sum = 0;
+              var h = "";
+              for(var i = 0; i < out.content.length; i++){
+                sum = sum + out.content[i][1];
+              }
+              for(var i = 0; i < out.content.length; i++){
+                frac[i] = Math.round(100*out.content[i][1]/sum);
+                h = h + "<p>" + out.content[i][0] + ": " + frac[i] + "%" + "<p>"
+              }
+
+              $('#result').html(h);
+            }
+        });
+        //console.log("{{ tid }}");
+      });
+      //alert(data);
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>結果｜ドラフトアプリ｜プロトタイプ</h1>
+        <nav>
+          <a href="index.html">ホーム</a>
+          <a href="result.html">結果</a>
+        </nav>
+      </header>
+      <main>
+        <article class="">
+          <header>
+            <h2>投票結果｜ドラフトアプリを作ろう</h2>
+            <p>19 Feb., 2020</p>
+            <p>発案者：H.H.</p>
+          </header>
+          <section>
+            <!--app-->
+            <h2>Introduction</h2>
+            <p>
+              アンケートを行うサイトです。結果が公開され蓄積していきます。<br>
+              リアルのイベントと絡めていくと良さそうです。<br>
+              手始めに◯大美女図鑑の人気投票から、レッツラゴー！
+            </p>
+            <h2>アンケート</h2>
+            <p>可愛いのは？</p>
+            <ul>
+              <li>選択肢１</li>
+              <li>選択肢２</li>
+              <li>選択肢３</li>
+            </ul>
+
+            <h2>結果発表！</h2>
+            <div class="" id="result">
+
+            </div>
+
+            <!--/app-->
+          </section>
+        </article>
+        <footer>
+          post category: test
+        </footer>
+      </main>
+      <aside class="">
+
+      </aside>
+      <footer>
+        <hr>
+        <p>ドラフトアプリ powered by teamKub</p>
+        <p class="copy">&copy teamKub</p>
+      </footer>
+    </div>
+  </body>
+</html>

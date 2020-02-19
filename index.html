@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+    <meta charset="utf-8">
+    <title>ドラフトアプリ｜プロトタイプ</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#googleform").submit(function (event) {
+            var sentaku = $("#sentaku").val();
+            $.ajax({
+                url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLScLnG-6l8DIXEbHgPPzP0VvEsXHwzxKo4QJ_LEseKdjydUHjw/formResponse",
+                data: {"entry.1324234113": sentaku},
+                type: "POST",
+                dataType: "xml",
+                statusCode: {
+                    0: function() {
+                        window.location.href="result.html"
+                    },
+                    200: function() {
+                        alert("errorMsg")
+                    }
+                }
+            })
+            event.preventDefault();
+        });
+    });
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>ドラフトアプリ｜プロトタイプ</h1>
+        <nav>
+          <a href="index.html">ホーム</a>
+          <a href="result.html">結果</a>
+        </nav>
+      </header>
+      <main>
+        <article class="">
+          <header>
+            <h2>ドラフトアプリを作ろう</h2>
+            <p>19 Feb., 2020</p>
+            <p>発案者：H.H.</p>
+          </header>
+          <section>
+            <!--app-->
+            <h2>Introduction</h2>
+            <p>
+              アンケートを行うサイトです。結果が公開され蓄積していきます。<br>
+              リアルのイベントと絡めていくと良さそうです。<br>
+              手始めに◯大美女図鑑の人気投票から、レッツラゴー！
+            </p>
+            <h2>アンケート</h2>
+            <p>可愛いのは？</p>
+            <ul>
+              <li>選択肢１</li>
+              <li>選択肢２</li>
+              <li>選択肢３</li>
+            </ul>
+            <div id="googleform">
+              <form id="form">
+                <div class="select-a">
+                  <select id="sentaku" name="entry.1324234113" required>
+                    <option value="" hidden>Choose</option>
+                    <option value="選択肢１">選択肢1</option>
+                    <option value="選択肢２">選択肢2</option>
+                    <option value="選択肢３">選択肢3</option>
+                  </select>
+                </div>
+                <div class="button-a">
+                  <input type="submit" class="button" value="送信">
+                </div>
+              </form>
+            </div>
+
+
+            <p>あとで</p>
+            <a href="https://productivityresearch.net/programing/116/">https://productivityresearch.net/programing/116/</a>
+            <h1>doPostによる方法</h1>
+            <form method=”post” action=”https://script.google.com/macros/s/AKfycbwvNsTpF5-yq9IH6_kFutV_JjUAU1-uojNZghC-CfW4x9lov389/exec”>
+              氏名：<input type=”text” name=”name”><br>
+              性別：
+              <input type=”radio” name=”gender” value=”男性”>男性
+              <input type=”radio” name=”gender” value=”女性”>女性<br>
+              好きな動物：
+              <input type=”checkbox” name=”animal” value=”犬”>いぬ
+              <input type=”checkbox” name=”animal” value=”猫”>ねこ
+              <input type=”checkbox” name=”animal” value=”うさぎ”>うさぎ<br>
+              <input type=”submit” class="button" value=”送信する”>
+            </form>
+            <!--/app-->
+          </section>
+        </article>
+        <footer>
+          post category: test
+        </footer>
+      </main>
+      <aside class="">
+
+      </aside>
+      <footer>
+        <hr>
+        <p>ドラフトアプリ powered by teamKub</p>
+        <p class="copy">&copy teamKub</p>
+      </footer>
+    </div>
+  </body>
+</html>
