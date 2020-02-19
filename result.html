@@ -12,7 +12,7 @@
       $(function(){
         //alert("{{ tid }}");
 
-        const endpoint = "https://script.google.com/macros/s/AKfycbxConiUtYgeRyGqS0_KwOzNwDdxTFXrFRwg7i7dL1LqKtk740kB/exec";
+        const endpoint = "https://script.google.com/macros/s/AKfycbwy0Gcav0Ld-IsI6NcupPNq19gHZDcwHrwVCo8cLw/exec";
         $.ajax({
             type: 'GET',
             url: endpoint,
@@ -50,6 +50,8 @@
                 h2 = h2 + "<div style=\"padding: 20px 0; float: left; width:" + frac2[i] + "%; background-color:" + colors[i] + ";\">"
                 h2 = h2 + "<p style=\"margin-left: 10px; color: white;\">" + out.content[i][0] + ":<br>" + frac[i] + "%" + "</p>" + "</div>"
               }
+
+              console.log(out);
 
               $('#result2').html(h2);
 
@@ -228,7 +230,7 @@
               </div>
             </div>
 
-            <h3>Chart.js</h3>
+            <h3><a href="https://www.chartjs.org/">Chart.js</a></h3>
             <div class="clearfix">
               <div class="col-50-100">
                 <div class="chart-container">
@@ -242,7 +244,7 @@
               </div>
             </div>
 
-            <h3>Google Charts</h3>
+            <h3><a href="https://developers.google.com/chart">Google Charts</a></h3>
             <div class="clearfix">
               <div class="col-50-100">
                 <div id="donutchart" style="max-width: 900px; width: 100%; height: 50vw; min-height: 300px; max-height: 500px;"></div>
