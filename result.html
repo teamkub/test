@@ -26,12 +26,25 @@
               for(var i = 0; i < out.content.length; i++){
                 sum = sum + out.content[i][1];
               }
+              var sum2 = 0;
               for(var i = 0; i < out.content.length; i++){
                 frac[i] = Math.round(100*out.content[i][1]/sum);
-                h = h + "<p>" + out.content[i][0] + ": " + frac[i] + "%" + "<p>"
+                h = h + "<p>" + out.content[i][0] + ": " + frac[i] + "%" + "</p>";
+                sum2 = sum2 + frac[i];
               }
 
               $('#result').html(h);
+
+              var h2 ="";
+              var colors = new Array(5);
+              colors[0] = "#FF0000"; colors[1] = "#00FF00"; colors[2] = "#0000FF"; colors[3] = "#00FFFF"; colors[4] = "#FF00FF";
+              for(var i = 0; i < out.content.length; i++){
+                var frac2 = 100*frac[i]/sum2;
+                h2 = h2 + "<div style=\"float: left; padding: 20px 0; width:" + frac2 + "%; background-color:" + colors[i] + ";\">"
+                h2 = h2 + "<p style=\"margin-left: 10px; color: white;\">" + out.content[i][0] + ":<br>" + frac[i] + "%" + "</p>" + "</div>"
+              }
+
+              $('#result2').html(h2);
             }
         });
         //console.log("{{ tid }}");
@@ -73,6 +86,9 @@
 
             <h2>結果発表！</h2>
             <div class="" id="result">
+
+            </div>
+            <div class="" id="result2">
 
             </div>
 
