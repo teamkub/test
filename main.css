@@ -3,6 +3,12 @@
 body{
   font-family: "Century Gothic", "Avenir Next", sans-serif;
 }
+
+nav a{
+  text-decoration: none;
+}
+
+
 .wrapper{
   max-width: 1000px;
   margin: auto;
@@ -76,4 +82,32 @@ body{
   width: 100%;
   padding-right: 1em;
   border: none;
+}
+.chart-container{
+  position: relative;
+  max-width: 400px;
+}
+.chart-container2{
+  position: relative;
+  max-width: 400px;
+  max-height: 250px;
+  width: 90vw;
+  height: 50vw;
+}
+
+.col-50-100{
+  width: 50%;
+  float: left;
+}
+
+@media (max-width: 800px) {
+  .col-50-100{
+    width: 100%;
+  }
+}
+
+.clearfix::after{
+  content: "";
+   display: block;
+   clear: both;
 }

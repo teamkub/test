@@ -6,6 +6,8 @@
     <title>結果｜ドラフトアプリ｜プロトタイプ</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       $(function(){
         //alert("{{ tid }}");
@@ -21,6 +23,8 @@
             },
             success: function(out) {
               var frac = new Array(out.content.length);
+              var frac2 = new Array(out.content.length);
+              var lab2 = new Array(out.content.length);
               var sum = 0;
               var h = "";
               for(var i = 0; i < out.content.length; i++){
@@ -37,28 +41,156 @@
 
               var h2 ="";
               var colors = new Array(5);
+              var colors40 = new Array(5);
               colors[0] = "#FF0000"; colors[1] = "#00FF00"; colors[2] = "#0000FF"; colors[3] = "#00FFFF"; colors[4] = "#FF00FF";
+              colors40[0] = "#FF000040"; colors40[1] = "#00FF0040"; colors40[2] = "#0000FF40"; colors40[3] = "#00FFFF40"; colors40[4] = "#FF00FF40";
               for(var i = 0; i < out.content.length; i++){
-                var frac2 = 100*frac[i]/sum2;
-                h2 = h2 + "<div style=\"float: left; padding: 20px 0; width:" + frac2 + "%; background-color:" + colors[i] + ";\">"
+                frac2[i] = 100*frac[i]/sum2;
+                lab2[i] = out.content[i][0];
+                h2 = h2 + "<div style=\"padding: 20px 0; float: left; width:" + frac2[i] + "%; background-color:" + colors[i] + ";\">"
                 h2 = h2 + "<p style=\"margin-left: 10px; color: white;\">" + out.content[i][0] + ":<br>" + frac[i] + "%" + "</p>" + "</div>"
               }
 
               $('#result2').html(h2);
-            }
+
+              var ctx = document.getElementById("myChart");
+              var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                  labels: lab2,
+                  datasets: [{
+                    backgroundColor: colors40,
+                    borderColor: colors,
+                    borderWidth: 2,
+                      data: frac
+                  }]
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: '投票結果'
+                  }
+                }
+              });
+
+              var ctx = document.getElementById("myChart2");
+              var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                  labels: lab2,
+                  datasets: [{
+                      backgroundColor: colors40,
+                      borderColor: colors,
+                      borderWidth: 2,
+                      data: frac
+                  }]
+                },
+                options: {
+                  aspectRatio: 2,
+                  maintainAspectRatio: false,
+                  title: {
+                    display: true,
+                    text: '投票結果'
+                  },
+                  scales: {
+                    xAxes: [{
+                      ticks: {
+                        min: 0
+                      },
+                      gridLines: {
+                        display: false,
+                        zeroLineWidth: 3
+                      },
+                      scaleLabel: {
+                        display: true,
+                        labelString: '%'
+                      }
+                    }],
+                    yAxes: [{
+                      barPercentage: 1,
+                      gridLines: {
+
+                        zeroLineColor: "black",
+                        zeroLineWidth: 3
+                      },
+                      lineWidth: 2
+                    }]
+                  },
+                  legend: {
+                    display: false
+                  }
+                }
+              });
+
+              var googlefrac2 = new Array(out.content.length+1);
+              googlefrac2[0] = ["Element", "Density"]
+              for (var i = 1; i < googlefrac2.length; i++) {
+                datai = out.content[i-1];
+                googlefrac2[i] = [datai[0],frac[i-1]];
+              }
+
+              google.charts.load("current", {packages:["corechart"]});
+              google.charts.setOnLoadCallback(drawChart);
+              function drawChart() {
+                var data = google.visualization.arrayToDataTable(googlefrac2);
+
+                var options = {
+                  title: '投票結果',
+                  pieHole: 0.4,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                chart.draw(data, options);
+              }
+
+              var googlefrac = new Array(out.content.length+1);
+              googlefrac[0] = ["Element", "Density", { role: "style" } ]
+              for (var i = 1; i < googlefrac.length; i++) {
+                datai = out.content[i-1];
+                googlefrac[i] = [datai[0],frac[i-1],colors[i-1]];
+              }
+
+              google.charts.load("current", {packages:["corechart"]});
+              google.charts.setOnLoadCallback(drawChart1);
+              function drawChart1() {
+                var data = google.visualization.arrayToDataTable(googlefrac);
+
+                var view = new google.visualization.DataView(data);
+                view.setColumns([0, 1,
+                                 { calc: "stringify",
+                                   sourceColumn: 1,
+                                   type: "string",
+                                   role: "annotation" },
+                                 2]);
+
+                var options = {
+                  title: "投票結果",
+                  bar: {groupWidth: "90%"},
+                  legend: { position: "none" },
+                };
+                var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+                chart.draw(view, options);
+              }
+              $(window).resize(function(){
+                drawChart();
+                drawChart1();
+
+              });
+
+            }//success
         });
         //console.log("{{ tid }}");
       });
       //alert(data);
     </script>
+
   </head>
   <body>
     <div class="wrapper">
       <header>
         <h1>結果｜ドラフトアプリ｜プロトタイプ</h1>
         <nav>
-          <a href="index.html">ホーム</a>
-          <a href="result.html">結果</a>
+          <a href="index.html">ホーム</a>｜<a href="result.html">結果</a>
         </nav>
       </header>
       <main>
@@ -85,11 +217,39 @@
             </ul>
 
             <h2>結果発表！</h2>
-            <div class="" id="result">
-
+            <div class="clearfix">
+              <div class="col-50-100">
+                <div class="" id="result">
+                </div>
+              </div>
+              <div class="col-50-100">
+                <div class="clearfix" id="result2">
+                </div>
+              </div>
             </div>
-            <div class="" id="result2">
 
+            <h3>Chart.js</h3>
+            <div class="clearfix">
+              <div class="col-50-100">
+                <div class="chart-container">
+                  <canvas id="myChart" width="300px" height="300px"></canvas>
+                </div>
+              </div>
+              <div class="col-50-100">
+                <div class="chart-container2">
+                  <canvas id="myChart2" width="300px" height="300px"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <h3>Google Charts</h3>
+            <div class="clearfix">
+              <div class="col-50-100">
+                <div id="donutchart" style="max-width: 900px; width: 100%; height: 50vw; min-height: 300px; max-height: 500px;"></div>
+              </div>
+              <div class="col-50-100">
+                <div id="barchart_values" style="max-width: 900px; width: 100%; height: 50vw; min-height: 300px; max-height: 500px;"></div>
+              </div>
             </div>
 
             <!--/app-->
